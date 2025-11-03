@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "Vue.volar",
+    "lokalise.i18n-ally",
+    "redhat.vscode-yaml",
+    "dbaeumer.vscode-eslint",
+    "PKief.material-icon-theme",
+    "bradlc.vscode-tailwindcss"
+  ]
+}

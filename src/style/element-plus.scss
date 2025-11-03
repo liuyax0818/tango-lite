@@ -1,0 +1,8 @@
+/* 重置 el-button 中 icon 的 margin */
+.reset-margin [class*='el-icon'] + span {
+  margin-left: 4px !important;
+}
+
+.re-dialog {
+  --el-dialog-border-radius: 0;
+}
