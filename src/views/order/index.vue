@@ -87,7 +87,7 @@ function onBack() {
     </div>
 
     <div class="absolute bottom-[5vh]">
-      <el-form>
+      <el-form @submit.prevent>
         <el-form-item label="隐藏假名">
           <el-switch v-model="config.hideKana" />
         </el-form-item>
