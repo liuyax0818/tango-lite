@@ -1,9 +1,16 @@
 <script setup lang='ts'>
+import { useTangoStoreHook } from '@/store'
+
 defineOptions({
   name: 'Home',
 })
 
 const router = useRouter()
+const tangoStore = useTangoStoreHook()
+
+const tangoStatus = computed(() => {
+  return tangoStore.ready ? '正常' : '异常'
+})
 
 function onStart() {
   router.push('/order')
@@ -21,7 +28,7 @@ function onStart() {
 </route>
 
 <template>
-  <div class="flex flex-col items-center pt-[30vh] bg-sky-200">
+  <div class="relative flex flex-col items-center pt-[30vh] bg-sky-200">
     <div class="text-3xl font-bold">
       Tango Lite
     </div>
@@ -30,9 +37,35 @@ function onStart() {
         开刷！！！
       </el-button>
     </div>
+
+    <div class="footer-info">
+      <div>
+        <span>单词量：</span>
+        <span>
+          {{ tangoStore.data.length }}
+        </span>
+      </div>
+      <div>
+        <span>词库状态：</span>
+        <span
+          :class="[tangoStore.ready ? 'text-green-400' : 'text-red-400 font-bold']"
+        >
+          {{ tangoStatus }}
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 
 <style lang='scss' scoped>
-
+.footer-info {
+  position: absolute;
+  bottom: 0;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #666;
+}
 </style>

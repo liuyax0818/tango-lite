@@ -8,5 +8,8 @@ export interface Tango {
 }
 
 export interface TangoState {
+  /** 单词数据 */
   data: Tango[]
+  /** 词库状态 */
+  ready: boolean
 }
