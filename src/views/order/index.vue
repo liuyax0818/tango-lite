@@ -1,16 +1,14 @@
 <script setup lang='ts'>
+import { useTangoStoreHook } from '@/store'
+
 defineOptions({
   name: 'Order',
 })
 
-interface Tango {
-  id: number
-  kana: string
-  text: string
-  type: string[]
-  translates: string[]
-  unit?: any
-}
+const router = useRouter()
+const tangoStore = useTangoStoreHook()
+
+const tangos = tangoStore.data
 
 const config = reactive({
   hideTranslate: false,
@@ -20,50 +18,9 @@ const config = reactive({
 
 const currData = ref<number>(0)
 
-const tangos = reactive<Tango[]>([
-  {
-    id: 1,
-    kana: 'つくえ',
-    text: '机',
-    type: ['名'],
-    translates: ['桌子，书桌'],
-  },
-  {
-    id: 2,
-    kana: 'あります',
-    text: 'あります',
-    type: ['动1'],
-    translates: ['有，在（非意志者）'],
-  },
-  {
-    id: 3,
-    kana: 'きたない',
-    text: '汚い',
-    type: ['形1'],
-    translates: ['脏'],
-  },
-  {
-    id: 4,
-    kana: 'かんこうきゃく',
-    text: '観光客',
-    type: ['名'],
-    translates: ['游客'],
-  },
-  {
-    id: 5,
-    kana: 'げんき',
-    text: '元気',
-    type: ['形2'],
-    translates: ['健康，有精神'],
-  },
-  {
-    id: 6,
-    kana: 'たしか',
-    text: '確か',
-    type: ['副'],
-    translates: ['好像是，大概', '的确'],
-  },
-])
+function onBack() {
+  router.push('/home')
+}
 </script>
 
 <route lang="json5">
@@ -77,7 +34,7 @@ const tangos = reactive<Tango[]>([
 </route>
 
 <template>
-  <div class="bg-sky-100 relative p-4">
+  <div v-if="tangos.length > 0" class="bg-sky-100 relative p-4">
     <!-- Banner -->
     <div class="text-sm">
       {{ currData + 1 }} / {{ tangos.length }}
@@ -130,6 +87,23 @@ const tangos = reactive<Tango[]>([
           <el-switch v-model="config.hideType" />
         </el-form-item>
       </el-form>
+    </div>
+  </div>
+
+  <div v-else class="flex flex-col items-center bg-orange-200 pt-[30vh]">
+    <div class="text-2xl font-bold">
+      无单词可刷！
+    </div>
+    <div class="w-[50vw] mt-4">
+      <el-button
+        plain
+        type="primary"
+        class="w-full"
+        size="large"
+        @click="onBack"
+      >
+        返回首页
+      </el-button>
     </div>
   </div>
 </template>

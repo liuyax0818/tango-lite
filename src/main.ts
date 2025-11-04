@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import { initGlobalConfig, injectStorageConfig } from '@/config'
 import { useReComponents } from '@/plugins/re-components'
 import router from '@/router'
+import { useStore } from '@/store'
 
 import App from './App.vue'
 
@@ -17,6 +18,7 @@ const app = createApp(App)
 
 // 初始化全局配置
 initGlobalConfig(app).then(() => {
+  useStore(app)
   injectStorageConfig(app)
 
   app
