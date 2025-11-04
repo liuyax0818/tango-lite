@@ -2,6 +2,12 @@
 defineOptions({
   name: 'Home',
 })
+
+const router = useRouter()
+
+function onStart() {
+  router.push('/order')
+}
 </script>
 
 <route lang="json5">
@@ -20,7 +26,7 @@ defineOptions({
       Tango Lite
     </div>
     <div class="w-[50vw] mt-[30px]">
-      <el-button plain size="large" class="w-full" type="primary">
+      <el-button plain size="large" class="w-full" type="primary" @click="onStart">
         开刷！！！
       </el-button>
     </div>
