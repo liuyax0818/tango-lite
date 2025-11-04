@@ -8,7 +8,9 @@ defineOptions({
 const router = useRouter()
 const tangoStore = useTangoStoreHook()
 
-const tangos = tangoStore.data
+const tangos = computed(() => {
+  return tangoStore.data
+})
 
 const config = reactive({
   hideTranslate: false,
@@ -16,7 +18,14 @@ const config = reactive({
   hideType: false,
 })
 
-const currData = ref<number>(0)
+const currData = ref<number>(1)
+const redirect = ref<string>('')
+
+function onRedirect() {
+  // TODO: 跳转校验
+  currData.value = Number(redirect.value.trim())
+  redirect.value = ''
+}
 
 function onBack() {
   router.push('/home')
@@ -37,21 +46,23 @@ function onBack() {
   <div v-if="tangos.length > 0" class="bg-sky-100 relative p-4">
     <!-- Banner -->
     <div class="text-sm">
-      {{ currData + 1 }} / {{ tangos.length }}
+      <span class="mr-2">
+        {{ currData }} / {{ tangos.length }}
+      </span>
     </div>
 
-    <div class="w-full flex flex-col items-center mt-[15vh]">
+    <div class="w-full flex flex-col items-center mt-[15vh] text-center">
       <div v-if="!config.hideKana" class="text-lg text-gray-500">
-        {{ tangos[currData].kana }}
+        {{ tangos[currData - 1].kana }}
       </div>
       <div class="text-4xl text-blue-500 mt-2">
-        {{ tangos[currData].text }}
+        {{ tangos[currData - 1].text }}
       </div>
       <div v-if="!config.hideType" class="text-lg text-gray-500 mt-2">
-        {{ tangos[currData].type.join(', ') }}
+        {{ tangos[currData - 1].type.join(', ') }}
       </div>
       <div v-if="!config.hideTranslate" class="mt-3 text-xl">
-        {{ tangos[currData].translates.join('；') }}
+        {{ tangos[currData - 1].translates.join('；') }}
       </div>
 
       <div class="mt-8">
@@ -59,7 +70,7 @@ function onBack() {
           plain
           size="large"
           type="primary"
-          :disabled="currData === 0"
+          :disabled="currData === 1"
           @click="currData--"
         >
           上一个
@@ -67,7 +78,7 @@ function onBack() {
         <el-button
           size="large"
           type="primary"
-          :disabled="currData === tangos.length - 1"
+          :disabled="currData === tangos.length"
           @click="currData++"
         >
           下一个
@@ -85,6 +96,20 @@ function onBack() {
         </el-form-item>
         <el-form-item label="隐藏词性">
           <el-switch v-model="config.hideType" />
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="redirect" type="tel" class="w-[150px]!">
+            <template #append>
+              <el-button @click="onRedirect">
+                GO!
+              </el-button>
+            </template>
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button plain type="primary" @click="onBack">
+            返回首页
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
