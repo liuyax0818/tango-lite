@@ -15,7 +15,16 @@ defineOptions({
 </route>
 
 <template>
-  <div>home</div>
+  <div class="flex flex-col items-center pt-[30vh] bg-sky-200">
+    <div class="text-3xl font-bold">
+      Tango Lite
+    </div>
+    <div class="w-[50vw] mt-[30px]">
+      <el-button plain size="large" class="w-full" type="primary">
+        开刷！！！
+      </el-button>
+    </div>
+  </div>
 </template>
 
 <style lang='scss' scoped>
