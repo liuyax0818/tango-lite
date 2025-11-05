@@ -12,4 +12,6 @@ export interface TangoState {
   data: Tango[]
   /** 词库状态 */
   ready: boolean
+  /** 词库版本 */
+  version: string
 }

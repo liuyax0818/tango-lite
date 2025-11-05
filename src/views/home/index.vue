@@ -53,6 +53,12 @@ function onStart() {
           {{ tangoStatus }}
         </span>
       </div>
+      <div>
+        <span>词库版本：</span>
+        <span>
+          {{ tangoStore.version }}
+        </span>
+      </div>
     </div>
   </div>
 </template>

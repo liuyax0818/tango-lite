@@ -23,6 +23,7 @@ function initTangoStore() {
         setItem('tango-version', Date.now())
         tangoStore.SET_TANGO(data)
         tangoStore.UPDATE_STATUS(true)
+        tangoStore.UPDATE_VERSION(Date.now())
       }
     })
     .catch((err) => {
@@ -34,7 +35,8 @@ function initTangoStore() {
 const isCache = getItem<boolean>('tango-status')
 const lastUpdate = getItem<number>('tango-version')
 
-if (isCache && (Date.now() - lastUpdate < 86400000)) {
+// 8 小时更新一次词库
+if (isCache && (Date.now() - lastUpdate < 28800000)) {
   tangoStore.SET_TANGO(getItem<Tango[]>('tango-data'))
   tangoStore.UPDATE_STATUS(true)
 }
