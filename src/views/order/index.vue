@@ -22,9 +22,22 @@ const currData = ref<number>(1)
 const redirect = ref<string>('')
 
 function onRedirect() {
-  // TODO: 跳转校验
-  currData.value = Number(redirect.value.trim())
-  redirect.value = ''
+  if (!redirect.value) {
+    return
+  }
+  let redir = Number(redirect.value.trim())
+  if (redir <= 1) {
+    redir = 1
+  }
+  else if (redir >= tangos.value.length) {
+    redir = tangos.value.length
+  }
+  currData.value = redir
+  redirect.value = `${redir}`
+}
+
+function onInput(val: string) {
+  redirect.value = val.replaceAll(/\D+/g, '')
 }
 
 function onBack() {
@@ -98,7 +111,7 @@ function onBack() {
           <el-switch v-model="config.hideType" />
         </el-form-item>
         <el-form-item>
-          <el-input v-model="redirect" type="tel" class="w-[150px]!">
+          <el-input v-model="redirect" type="tel" class="w-[150px]!" @input="onInput">
             <template #append>
               <el-button @click="onRedirect">
                 GO!
