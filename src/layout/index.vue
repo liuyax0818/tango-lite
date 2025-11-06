@@ -39,6 +39,7 @@ const lastUpdate = getItem<number>('tango-version')
 if (isCache && (Date.now() - lastUpdate < 28800000)) {
   tangoStore.SET_TANGO(getItem<Tango[]>('tango-data'))
   tangoStore.UPDATE_STATUS(true)
+  tangoStore.UPDATE_VERSION(lastUpdate)
 }
 else {
   initTangoStore()

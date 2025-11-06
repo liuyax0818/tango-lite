@@ -38,26 +38,33 @@ function onStart() {
       </el-button>
     </div>
 
-    <div class="footer-info">
-      <div>
-        <span>单词量：</span>
-        <span>
-          {{ tangoStore.data.length }}
-        </span>
+    <div class="footer-info text-xs">
+      <div class="mb-1">
+        <a href="https://github.com/liuyax0818/tango-lite" target="_blank">
+          GitHub
+        </a>
       </div>
-      <div>
-        <span>词库状态：</span>
-        <span
-          :class="[tangoStore.ready ? 'text-green-400' : 'text-red-400 font-bold']"
-        >
-          {{ tangoStatus }}
-        </span>
-      </div>
-      <div>
-        <span>词库版本：</span>
-        <span>
-          {{ tangoStore.version }}
-        </span>
+      <div class="flex gap-2">
+        <div>
+          <span>词库量：</span>
+          <span>
+            {{ tangoStore.data.length }}
+          </span>
+        </div>
+        <div>
+          <span>状态：</span>
+          <span
+            :class="[tangoStore.ready ? 'text-green-400' : 'text-red-400 font-bold']"
+          >
+            {{ tangoStatus }}
+          </span>
+        </div>
+        <div>
+          <span>版本：</span>
+          <span>
+            {{ tangoStore.version }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
