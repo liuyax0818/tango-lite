@@ -31,7 +31,6 @@ jobs:
         run: |
           pnpm install --no-frozen-lockfile
           pnpm build --base=/tango-lite/
-          pnpm build
           cd dist
           touch README.md .nojekyll
 
