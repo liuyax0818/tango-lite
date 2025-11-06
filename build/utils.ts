@@ -42,7 +42,7 @@ const appInfo: typeof __APP_INFO__ = {
   author,
   build: {
     commit,
-    time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    time: dayjs().format('YYYY-MM-DD HH:mm:ssZ'),
   },
 }
 
