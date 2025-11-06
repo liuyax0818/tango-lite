@@ -30,7 +30,8 @@ jobs:
       - name: Deploy 🚀
         run: |
           pnpm install --no-frozen-lockfile
-          pnpm build --base=/tango-lite/
+          sed -i "s#VITE_BASE_PATH = '/'#VITE_BASE_PATH = '/tango-lite/'#g" .env.production
+          pnpm build
           cd dist
           touch README.md .nojekyll
 
