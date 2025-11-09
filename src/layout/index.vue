@@ -56,6 +56,7 @@ else {
 .lay-wrapper {
   position: relative;
   height: 100%;
+  min-height: 600px;
 }
 
 .main-content {
