@@ -111,7 +111,13 @@ function onBack() {
           <el-switch v-model="config.hideType" />
         </el-form-item>
         <el-form-item>
-          <el-input v-model="redirect" type="tel" class="w-[150px]!" @input="onInput">
+          <el-input
+            v-model="redirect"
+            type="tel"
+            class="w-[150px]!"
+            @keydown.enter="onRedirect"
+            @input="onInput"
+          >
             <template #append>
               <el-button @click="onRedirect">
                 GO!
