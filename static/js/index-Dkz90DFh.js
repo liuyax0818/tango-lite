@@ -1,1 +1,0 @@
-import{N as a,O as o,P as s}from"./index-NLQ2e3ts.js";const e=a("tgl-tango",{state:()=>({data:[],ready:!1,version:""}),actions:{SET_TANGO(t){this.data=t},UPDATE_STATUS(t){this.ready=t},UPDATE_VERSION(t){this.version=s(t).format("YYYY-MM-DD")}}});function n(){return e(o)}export{n as u};
