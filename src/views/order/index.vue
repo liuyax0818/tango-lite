@@ -1,11 +1,13 @@
 <script setup lang='ts'>
 import { useTangoStoreHook } from '@/store'
+import { useUserStoreHook } from '@/store/modules/user'
 
 defineOptions({
   name: 'Order',
 })
 
 const router = useRouter()
+const userStore = useUserStoreHook()
 const tangoStore = useTangoStoreHook()
 
 const tangos = computed(() => {
@@ -18,8 +20,12 @@ const config = reactive({
   hideType: false,
 })
 
-const currData = ref<number>(1)
+const currData = ref<number>(userStore.currentIndex)
 const redirect = ref<string>('')
+
+watch(currData, (val) => {
+  userStore.UPDATE_PROGRESS(val)
+})
 
 function onRedirect() {
   if (!redirect.value) {
