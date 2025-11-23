@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import type { Tango } from '@/store/modules/tango/types'
 import axios from 'axios'
-import { useTangoStoreHook } from '@/store'
+import { useTangoStoreHook } from '@/store/modules/tango'
 import { useStorage } from '@/utils/global'
 import '@/components/ReIcon/src/offlineIcons'
 
