@@ -1,0 +1,1 @@
+import{ay as a,az as o}from"./vendor-4pU3Egq1.js";import{N as s,O as r}from"./index-CRjCkl5G.js";var e=a();const n=o(e),i=s("tgl-tango",{state:()=>({data:[],ready:!1,version:""}),actions:{SET_TANGO(t){this.data=t},UPDATE_STATUS(t){this.ready=t},UPDATE_VERSION(t){this.version=n(t).format("YYYY-MM-DD")}}});function d(){return i(r)}export{d as u};

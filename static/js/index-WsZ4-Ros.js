@@ -1,0 +1,1 @@
+import{b as o}from"./index-CRjCkl5G.js";import{h as t,X as n,x as r}from"./vendor-4pU3Egq1.js";import{b as e}from"./route-block-B_A1xBdJ.js";const a=t({name:"403",__name:"index",setup(m){return o(),(s,c)=>(r(),n("div",null,"403"))}});typeof e=="function"&&e(a);export{a as default};
