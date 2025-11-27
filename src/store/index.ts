@@ -7,5 +7,3 @@ export function useStore(app: App) {
 }
 
 export { store }
-
-export * from './modules/tango'

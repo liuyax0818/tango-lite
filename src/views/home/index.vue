@@ -1,5 +1,5 @@
 <script setup lang='ts'>
-import { useTangoStoreHook } from '@/store'
+import { useTangoStoreHook } from '@/store/modules/tango'
 
 defineOptions({
   name: 'Home',
