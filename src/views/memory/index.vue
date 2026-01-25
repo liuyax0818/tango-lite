@@ -20,22 +20,28 @@ const config = reactive({
   showType: true,
 })
 
-const currData = ref<number>(1080)
+const currIndex = ref<number>(userStore.testIndex)
 
 function onRemember() {
   onNext()
 }
 
 function onUnRemember() {
+  const currId = tangos.value[currIndex.value - 1].id
+  const retrySet = new Set(userStore.retryIds) // 保证值唯一
+  retrySet.add(currId)
+  userStore.UPDATE_RETRY_IDS([...retrySet])
   onNext()
 }
 
 function onNext() {
-  if (currData.value === tangos.value.length) {
+  if (currIndex.value === tangos.value.length) {
+    userStore.UPDATE_TEST(1)
     onBack()
   }
 
-  currData.value++
+  currIndex.value++
+  userStore.UPDATE_TEST(currIndex.value)
 }
 
 function onBack() {
@@ -58,22 +64,22 @@ function onBack() {
     <!-- Banner -->
     <div class="text-sm">
       <span class="mr-2">
-        {{ currData }} / {{ tangos.length }}
+        {{ currIndex }} / {{ tangos.length }}
       </span>
     </div>
 
     <div class="w-full flex flex-col items-center mt-[15vh] text-center">
       <div v-if="config.showKana" class="text-lg text-gray-500">
-        {{ tangos[currData - 1].kana }}
+        {{ tangos[currIndex - 1].kana }}
       </div>
       <div class="text-4xl text-green-500 mt-2">
-        {{ tangos[currData - 1].text }}
+        {{ tangos[currIndex - 1].text }}
       </div>
       <div v-if="config.showType" class="text-lg text-gray-500 mt-2">
-        {{ tangos[currData - 1].type.join(', ') }}
+        {{ tangos[currIndex - 1].type.join(', ') }}
       </div>
       <div v-if="config.showTranslate" class="mt-3 text-xl">
-        {{ tangos[currData - 1].translates.join('；') }}
+        {{ tangos[currIndex - 1].translates.join('；') }}
       </div>
 
       <div class="mt-8 w-60 flex flex-col gap-3">

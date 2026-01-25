@@ -11,7 +11,8 @@ const userStore = useUserStoreHook()
 const tangoStore = useTangoStoreHook()
 
 const tangos = computed(() => {
-  return tangoStore.data
+  const retryIds = userStore.retryIds
+  return tangoStore.data.filter(v => retryIds.includes(v.id))
 })
 
 const config = reactive({
@@ -20,10 +21,15 @@ const config = reactive({
   showType: true,
 })
 
-const currData = ref<number>(1)
+const currIndex = ref<number>(1)
 
 function onResolve() {
-
+  const retryIds = [...userStore.retryIds] // 防止地址引用
+  retryIds.splice(currIndex.value - 1, 1)
+  if (currIndex.value === tangos.value.length) {
+    currIndex.value--
+  }
+  userStore.UPDATE_RETRY_IDS(retryIds)
 }
 
 function onBack() {
@@ -46,22 +52,22 @@ function onBack() {
     <!-- Banner -->
     <div class="text-sm">
       <span class="mr-2">
-        {{ currData }} / {{ tangos.length }}
+        {{ currIndex }} / {{ tangos.length }}
       </span>
     </div>
 
     <div class="w-full flex flex-col items-center mt-[15vh] text-center">
       <div v-if="config.showKana" class="text-lg text-gray-500">
-        {{ tangos[currData - 1].kana }}
+        {{ tangos[currIndex - 1].kana }}
       </div>
       <div class="text-4xl text-orange-500 mt-2">
-        {{ tangos[currData - 1].text }}
+        {{ tangos[currIndex - 1].text }}
       </div>
       <div v-if="config.showType" class="text-lg text-gray-500 mt-2">
-        {{ tangos[currData - 1].type.join(', ') }}
+        {{ tangos[currIndex - 1].type.join(', ') }}
       </div>
       <div v-if="config.showTranslate" class="mt-3 text-xl">
-        {{ tangos[currData - 1].translates.join('；') }}
+        {{ tangos[currIndex - 1].translates.join('；') }}
       </div>
 
       <div class="mt-8 w-60 flex flex-col gap-3">
@@ -71,8 +77,8 @@ function onBack() {
             size="large"
             type="warning"
             class="w-full"
-            :disabled="currData === 1"
-            @click="currData--"
+            :disabled="currIndex === 1"
+            @click="currIndex--"
           >
             上一个
           </el-button>
@@ -93,8 +99,8 @@ function onBack() {
             size="large"
             type="warning"
             class="w-full"
-            :disabled="currData === tangos.length"
-            @click="currData++"
+            :disabled="currIndex === tangos.length"
+            @click="currIndex++"
           >
             下一个
           </el-button>
