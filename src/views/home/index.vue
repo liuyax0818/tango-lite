@@ -12,8 +12,16 @@ const tangoStatus = computed(() => {
   return tangoStore.ready ? '正常' : '异常'
 })
 
-function onStart() {
+function onOrder() {
   router.push('/order')
+}
+
+function onMemory() {
+  router.push('/memory')
+}
+
+function onRetry() {
+  router.push('/retry')
 }
 </script>
 
@@ -32,10 +40,22 @@ function onStart() {
     <div class="text-3xl font-bold">
       Tango Lite
     </div>
-    <div class="w-[50vw] mt-[30px]">
-      <el-button plain size="large" class="w-full" type="primary" @click="onStart">
-        开刷！！！
-      </el-button>
+    <div class="w-[50vw] mt-8 flex flex-col gap-3">
+      <div>
+        <el-button plain size="large" class="w-full" type="primary" @click="onOrder">
+          顺序模式
+        </el-button>
+      </div>
+      <div>
+        <el-button plain size="large" class="w-full" type="success" @click="onMemory">
+          测试模式
+        </el-button>
+      </div>
+      <div>
+        <el-button plain size="large" class="w-full" type="warning" @click="onRetry">
+          错题重练
+        </el-button>
+      </div>
     </div>
 
     <div class="footer-info text-xs">

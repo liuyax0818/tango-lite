@@ -51,9 +51,23 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    'Memory': RouteRecordInfo<
+      'Memory',
+      '/memory',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     'Order': RouteRecordInfo<
       'Order',
       '/order',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    'Retry': RouteRecordInfo<
+      'Retry',
+      '/retry',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -95,9 +109,21 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/views/memory/index.vue': {
+      routes:
+        | 'Memory'
+      views:
+        | never
+    }
     'src/views/order/index.vue': {
       routes:
         | 'Order'
+      views:
+        | never
+    }
+    'src/views/retry/index.vue': {
+      routes:
+        | 'Retry'
       views:
         | never
     }
