@@ -15,9 +15,9 @@ const tangos = computed(() => {
 })
 
 const config = reactive({
-  hideTranslate: false,
-  hideKana: false,
-  hideType: false,
+  showTranslate: true,
+  showKana: true,
+  showType: true,
 })
 
 const currData = ref<number>(userStore.currentIndex)
@@ -71,16 +71,16 @@ function onBack() {
     </div>
 
     <div class="w-full flex flex-col items-center mt-[15vh] text-center">
-      <div v-if="!config.hideKana" class="text-lg text-gray-500">
+      <div v-if="config.showKana" class="text-lg text-gray-500">
         {{ tangos[currData - 1].kana }}
       </div>
       <div class="text-4xl text-blue-500 mt-2">
         {{ tangos[currData - 1].text }}
       </div>
-      <div v-if="!config.hideType" class="text-lg text-gray-500 mt-2">
+      <div v-if="config.showType" class="text-lg text-gray-500 mt-2">
         {{ tangos[currData - 1].type.join(', ') }}
       </div>
-      <div v-if="!config.hideTranslate" class="mt-3 text-xl">
+      <div v-if="config.showTranslate" class="mt-3 text-xl">
         {{ tangos[currData - 1].translates.join('；') }}
       </div>
 
@@ -107,20 +107,20 @@ function onBack() {
 
     <div class="absolute bottom-[5vh]">
       <el-form @submit.prevent>
-        <el-form-item label="隐藏假名">
-          <el-switch v-model="config.hideKana" />
+        <el-form-item label="显示假名">
+          <el-switch v-model="config.showKana" />
         </el-form-item>
-        <el-form-item label="隐藏翻译">
-          <el-switch v-model="config.hideTranslate" />
+        <el-form-item label="显示翻译">
+          <el-switch v-model="config.showTranslate" />
         </el-form-item>
-        <el-form-item label="隐藏词性">
-          <el-switch v-model="config.hideType" />
+        <el-form-item label="显示词性">
+          <el-switch v-model="config.showType" />
         </el-form-item>
         <el-form-item>
           <el-input
             v-model="redirect"
             type="tel"
-            class="w-[150px]!"
+            class="w-35!"
             @keydown.enter="onRedirect"
             @input="onInput"
           >
