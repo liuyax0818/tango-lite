@@ -3,7 +3,7 @@ import { useTangoStoreHook } from '@/store/modules/tango'
 import { useUserStoreHook } from '@/store/modules/user'
 
 defineOptions({
-  name: 'Order',
+  name: 'Retry',
 })
 
 const router = useRouter()
@@ -11,7 +11,8 @@ const userStore = useUserStoreHook()
 const tangoStore = useTangoStoreHook()
 
 const tangos = computed(() => {
-  return tangoStore.data
+  const retryIds = userStore.retryIds
+  return tangoStore.data.filter(v => retryIds.includes(v.id))
 })
 
 const config = reactive({
@@ -20,30 +21,15 @@ const config = reactive({
   showType: true,
 })
 
-const currData = ref<number>(userStore.currentIndex)
-const redirect = ref<string>('')
+const currIndex = ref<number>(1)
 
-watch(currData, (val) => {
-  userStore.UPDATE_PROGRESS(val)
-})
-
-function onRedirect() {
-  if (!redirect.value) {
-    return
+function onResolve() {
+  const retryIds = [...userStore.retryIds] // 防止地址引用
+  retryIds.splice(currIndex.value - 1, 1)
+  if (currIndex.value === tangos.value.length) {
+    currIndex.value--
   }
-  let redir = Number(redirect.value.trim())
-  if (redir <= 1) {
-    redir = 1
-  }
-  else if (redir >= tangos.value.length) {
-    redir = tangos.value.length
-  }
-  currData.value = redir
-  redirect.value = `${redir}`
-}
-
-function onInput(val: string) {
-  redirect.value = val.replaceAll(/\D+/g, '')
+  userStore.UPDATE_RETRY_IDS(retryIds)
 }
 
 function onBack() {
@@ -53,55 +39,72 @@ function onBack() {
 
 <route lang="json5">
 {
-  name: "Order",
-  path: "/order",
+  name: "Retry",
+  path: "/retry",
   meta: {
-    title: "顺序模式",
+    title: "错题重练",
   }
 }
 </route>
 
 <template>
-  <div v-if="tangos.length > 0" class="bg-sky-100 relative p-4">
+  <div v-if="tangos.length > 0" class="bg-orange-100 relative p-4">
     <!-- Banner -->
     <div class="text-sm">
       <span class="mr-2">
-        {{ currData }} / {{ tangos.length }}
+        {{ currIndex }} / {{ tangos.length }}
       </span>
     </div>
 
     <div class="w-full flex flex-col items-center mt-[15vh] text-center">
       <div v-if="config.showKana" class="text-lg text-gray-500">
-        {{ tangos[currData - 1].kana }}
+        {{ tangos[currIndex - 1].kana }}
       </div>
-      <div class="text-4xl text-blue-500 mt-2">
-        {{ tangos[currData - 1].text }}
+      <div class="text-4xl text-orange-500 mt-2">
+        {{ tangos[currIndex - 1].text }}
       </div>
       <div v-if="config.showType" class="text-lg text-gray-500 mt-2">
-        {{ tangos[currData - 1].type.join(', ') }}
+        {{ tangos[currIndex - 1].type.join(', ') }}
       </div>
       <div v-if="config.showTranslate" class="mt-3 text-xl">
-        {{ tangos[currData - 1].translates.join('；') }}
+        {{ tangos[currIndex - 1].translates.join('；') }}
       </div>
 
-      <div class="mt-8">
-        <el-button
-          plain
-          size="large"
-          type="primary"
-          :disabled="currData === 1"
-          @click="currData--"
-        >
-          上一个
-        </el-button>
-        <el-button
-          size="large"
-          type="primary"
-          :disabled="currData === tangos.length"
-          @click="currData++"
-        >
-          下一个
-        </el-button>
+      <div class="mt-8 w-60 flex flex-col gap-3">
+        <div>
+          <el-button
+            plain
+            size="large"
+            type="warning"
+            class="w-full"
+            :disabled="currIndex === 1"
+            @click="currIndex--"
+          >
+            上一个
+          </el-button>
+        </div>
+        <div>
+          <el-button
+            size="large"
+            type="warning"
+            class="w-full"
+            @click="onResolve"
+          >
+            解决
+          </el-button>
+        </div>
+        <div>
+          <el-button
+            plain
+            size="large"
+            type="warning"
+            class="w-full"
+            :disabled="currIndex === tangos.length"
+            @click="currIndex++"
+          >
+            下一个
+          </el-button>
+        </div>
       </div>
     </div>
 
@@ -117,22 +120,7 @@ function onBack() {
           <el-switch v-model="config.showType" />
         </el-form-item>
         <el-form-item>
-          <el-input
-            v-model="redirect"
-            type="tel"
-            class="w-35!"
-            @keydown.enter="onRedirect"
-            @input="onInput"
-          >
-            <template #append>
-              <el-button @click="onRedirect">
-                GO!
-              </el-button>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button plain type="primary" @click="onBack">
+          <el-button plain type="warning" @click="onBack">
             返回首页
           </el-button>
         </el-form-item>
@@ -142,12 +130,12 @@ function onBack() {
 
   <div v-else class="flex flex-col items-center bg-orange-200 pt-[30vh]">
     <div class="text-2xl font-bold">
-      无单词可刷！
+      无错题可刷！
     </div>
     <div class="w-[50vw] mt-4">
       <el-button
         plain
-        type="primary"
+        type="warning"
         class="w-full"
         size="large"
         @click="onBack"
@@ -161,5 +149,9 @@ function onBack() {
 <style lang='scss' scoped>
 .el-form-item {
   margin-bottom: 5px;
+}
+
+.el-switch {
+  --el-switch-on-color: var(--el-color-warning);
 }
 </style>
