@@ -38,6 +38,7 @@ function onNext() {
   if (currIndex.value === tangos.value.length) {
     userStore.UPDATE_TEST(1)
     onBack()
+    return
   }
 
   currIndex.value++
@@ -47,6 +48,12 @@ function onNext() {
 function onBack() {
   router.push('/home')
 }
+
+onBeforeMount(() => {
+  if (currIndex.value > tangos.value.length) {
+    currIndex.value = tangos.value.length
+  }
+})
 </script>
 
 <route lang="json5">
